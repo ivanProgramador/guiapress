@@ -1,0 +1,73 @@
+Tipos de relacionamentos 
+
+1 para 1
+
+  ATIVIDADE  pertence a AULA
+
+1 para muitos 
+
+  VENDEDOR atende muitos CLIENTES
+
+muitos para muitos  
+
+  muitos produtos podem estar presentes em varias notas ficais 
+  assim como as notas fiscais podem ter varios produtos nesse caso em especifico 
+  o relacionamento(ligação entre produtos e notas fiscais) se da atraves da compra.
+
+--------------------------------------------------------------------------------------------
+instalando dependencias 
+- express 
+- sequelize 
+- mysql2 
+- body-parser 
+- ejs 
+- nodemon 
+
+----------------------------------------------------------
+- O primeiro passo foi configurar um servidor basico express com um rota que devolve uma mensagem
+- depois configurar a view engine pra renderizar html / criei uma pasta view que serve de base pora ela buscar o arquivo ejs 
+  pra mostrar na rota  
+- configurar o body parser ele serve pra converter o corpo dos formularios 
+- configurar o express pra trabalhar com pasta public estatica 
+- criar o banco de dados 
+- se conectar ao banco de dados usando o sequelize  
+- configurar o bootstrap colocando as pastas de css  e js na pasta public 
+- criar as partials
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
