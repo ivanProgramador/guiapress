@@ -34,8 +34,40 @@ instalando dependencias
 - configurar o bootstrap colocando as pastas de css  e js na pasta public 
 - criar as partials
 
-
 --------------------------------------------------------------------------------
+Arquitetura de software 
+  A ultima aplicação que eu fiz centralizava as rotas e as logicas dentro de um unico arquivo chamado index.js 
+  isso pode ser feito em aplicações de pequeno porte mais simples porem em aplicações de grande porte isso não 
+  é uma boa prática levando em conta que essas aplicações precisam ser refatoradas e atualizadas quando necessario,
+  é isso pode atrapalhar esse processo, sendo assim essa aplicação vai ser divida.
+
+  Os controllers -> vão conter as rotas e cada rota dessas ao ser acionada vai ter uma função correspondente
+  Os models -> aruivos que vão repsentar as tabelas e campos na base de dados
+  O index -> sera apenas um indice que vai guiar as requisições para os controllers e abrigar a configurações do servidor
+
+  Parece com mvc mas não é a aminha palicação vai ser separada por dominio Rotas(resposaveis por executar ações ou mostrar uma interface)
+
+  por exemplo:
+  para acessar uma lista de artigos
+
+  /admin/artciles
+
+  para gravar um novo artigo
+
+  /article/save   
+
+  E assim por diante  
+
+
+ ------------------------------------------------------------------------------------------------   
+
+ Model
+   É uma representação da estrtura de um registro do banco de dados o modelo e como se fosse uma forma para que varios dados  
+   sejam criados seguindo essa regra. o desenho de um model usando o sequelize é basicamente um objeto json. 
+
+ ----------------------------------------------------------------------------------
+
+
 
 
 
