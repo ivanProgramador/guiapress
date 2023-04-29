@@ -17,7 +17,7 @@ const Category = connection.define('categories',{
 
 
 //atualizando o banco com a tabela 
-
+//depois de executar uma vez tem que comentar o codigogo sync senão ele ficatentandio crirar a tabela de novo 
 //Category.sync({force:true});
 
 module.exports = Category;

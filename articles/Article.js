@@ -29,7 +29,7 @@ Category.hasMany(Article); //uma categoria pode ter muitos artigos
 Article.belongsTo(Category); //um artigo pertence a uma categoria 
 
 //atualizando as alterações para incluir o relacionamento isso tem que ser feito em todos os models 
-
+//depois de executar uma vez tem que comentar o codigogo sync senão ele ficatentandio crirar a tabela de novo 
 // Article.sync({force:true});
 
 

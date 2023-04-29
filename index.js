@@ -3,6 +3,18 @@ const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
 
+
+
+//body parser para trabalhar com a conversão do corpo dos formularios 
+//ele nunca deve ser usado antes dos controllers primeiro chama app use e depois importa 
+//os controllers 
+app.use(bodyParser.urlencoded({extended: false}));
+// e converter json tambem 
+app.use(bodyParser.json());
+
+
+
+
 //importando as rotas 
 const categoriesController = require('./categories/categoriesController');
 const articlesController = require('./articles/articlesController');
@@ -17,6 +29,7 @@ app.use('/', articlesController);
 
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
+const router = require("./categories/categoriesController");
 
 
 
@@ -28,10 +41,6 @@ app.use(express.static('public'));
 
 
 
-//body parser para trabalhar com a conversão do corpo dos formularios 
-app.use(bodyParser.urlencoded({extended: false}));
-// e converter json tambem 
-app.use(bodyParser.json());
 
 
 
@@ -42,6 +51,24 @@ app.get("/", (req,res)=>{
     res.render("index");
 
 })
+
+
+
+//rotas administrativas categorias
+
+router.get('/admin/categories/new',(req,res)=>{
+
+})
+
+
+
+
+
+
+
+
+
+
 
 
 

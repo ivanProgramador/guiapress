@@ -62,10 +62,70 @@ Arquitetura de software
  ------------------------------------------------------------------------------------------------   
 
  Model
+
    É uma representação da estrtura de um registro do banco de dados o modelo e como se fosse uma forma para que varios dados  
-   sejam criados seguindo essa regra. o desenho de um model usando o sequelize é basicamente um objeto json. 
+   sejam criados seguindo essa regra. o desenho de um model usando o sequelize é basicamente uuma fução que aceita 2 parametros
+   e a função define que vemda da connection. 
+   
+    const Category = connection.define('categories',{
+        title:{
+            type: Sequelize.STRING,
+            allowNull: false
+              },
+         slug:{
+            type: Sequelize.STRING,
+            allowNull: false
+              }
+        })
+
+
 
  ----------------------------------------------------------------------------------
+
+Porque usar relacionamentos ?
+
+   Consultas sql exigem processamento é nem sempre os dados necessarios que a aplicação precisa mostrar 
+   estão presentes na mesma tabela isso significa que para cada dado requisitado que não estaja presente
+   na mesma tabela vai ser necessario uma nova requisição.
+
+   Usando conmo exemplo um cadastro de bebidas para trazer uma bebida do estoque eu preciso 
+
+   1 - selecionar a categoria de bebidas
+   2 - selecionar a tabela das bebidas onde as bebidas estão 
+   3 - finalmente selecionar a bebida que eu quero ver
+
+  são tres requisições SELECT cada uma traz um informação ate chegar na bebida que eu quero, eu preciso percorrer 3 listas
+  isso em uma operação de um bar mvimentado vai causar lentidão na base de dados.
+  No caso de uma tabela que tem uma relação estruturada eu so preciso comsultar uma vez usando o joyn.
+  que eu selecionando a categoria bebidas ele ja póde trazer a lista de bebidas puxando pelo id da bebida que eu quero porque
+  as tabelas ja estão interligadas isso economiza hardware e evita que aplicação fique conhecida como um aplicação lenta 
+  por causa disso.
+
+  Usando esta aplicação como exemplo eu tenho uma categoria que tem varios artigos ligados a ela pelo id então se eu seleciono a acategoria
+  eu ja tenho acesso aos artigos atraves do joyn pra pode exibir elas no meu html com um consulta só.     
+--------------------------------------------------------------------------------------------------------
+  Organizando as views 
+
+  Dentro das pasta view tem uma pasta admin onde vão ficar as views administrativas tanto dos artigos quanto das categorias.
+  views|
+       |- admin|
+       |       |
+       |       |- |categorias --> arquivos das views    
+       |       |             
+       |       |- |artigos   -->  arquivos das views
+
+  
+---------------------------------------------------------------------------------------------------------------------  
+
+
+
+
+    
+
+
+   
+
+
 
 
 
