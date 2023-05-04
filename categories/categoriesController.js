@@ -59,6 +59,21 @@ router.post("/categories/save",(req,res)=>{
 });
 
 
+router.get('/admin/categories',(req,res)=>{
+
+  //findAll e como um select deposi que ele seleciona ele envia os dados para a função then() 
+  //que recebe uma função de call back então eu criei o parametro categories e dentro dela joguei topas as categorias encontradas 
+   
+
+  Category.findAll().then(categories =>{
+    //aqui eu passo para a função reder que vai retornar a view no primeiro parametro 
+    // e no segundo eu pásso um objeto que diz que colocar todas as categorias encontradas na varivel de categorias  
+    res.render("admin/categories/index",{categories: categories});
+     
+   });  
+});
+
+
 
 module.exports = router;
   
