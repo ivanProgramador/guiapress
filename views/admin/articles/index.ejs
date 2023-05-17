@@ -1,0 +1,80 @@
+<%- include('../../partials/header.ejs')%>
+<%- include('../../partials/navbar.ejs')%>
+<div class="container">
+    <hr>
+      <h2>Artigos</h2>
+      <a href="/admin/articles/new" class="btn btn-success" >Criar novo artigo</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Slug</th>
+                <th>Category</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+           <% articles.forEach(article =>{%>
+            <tr>
+                <th><%= article.id   %></th>
+                <th><%= article.title %></th>
+                <th><%= article.slug  %></th>
+                <th><%= article.category.title %></th>
+                <th>
+
+                    
+                    <!--esse formulario vai mandar a requisição para o metodo delete-->
+                    <form action="/articles/delete" method="post" style="display: inline;" onsubmit="confirmarDelecao(event,this)">
+                        <!--esse campo vai mandar o id do registro que vai ser apagado-->
+                        <input type="hidden" name="id" value="<%= article.id %>" >
+
+                        <!--esse so vai acionar o submit-->
+                        <button class="btn btn-danger" >Deletar</button>
+                    </form>
+
+
+
+                </th>
+            </tr>
+               
+               
+              
+           <% }) %>
+
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+    //executando uma função na pagina
+
+ function confirmarDelecao(event,form){
+
+    event.preventDefault();
+
+    var decisao = confirm("Você deseja apagar esse artigo");
+
+    if(decisao){
+
+        form.submit();
+
+    }
+
+
+
+
+      
+ }
+</script>
+
+
+
+
+
+<%- include('../../partials/footer.ejs')%>

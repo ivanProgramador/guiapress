@@ -1,0 +1,97 @@
+<%- include('../../partials/header.ejs')%>
+<%- include('../../partials/navbar.ejs')%>
+
+<body>
+    
+
+<div class="container">
+    <hr>
+    <div class="card" >
+
+    <div class="card-header" >
+            <h2>Novo artigo</h2>
+            
+
+
+    </div>
+
+        <form method="POST" action="/articles/save">
+
+            <div class="card-body">
+
+               <input type="text" class="form-control" name="title" placeholder="Defina um titulo para o novo atigo"><br>
+               
+               <textarea class="form-control" placeholder="escreva aqui seu artigo" name="body" id="article" >
+
+
+               </textarea><br>
+
+               <label>Categoria</label>
+               <select name="category" class="form-control">
+                 <% categories.forEach((category) => { %>
+                   
+                     <option value="<%= category.id %>"> <%= category.title %></option>
+
+                 <% }) %>
+
+               </select><br>
+
+               <button  class="btn btn-success">Cadastrar</button>
+
+            </div>
+
+        </form>
+
+
+    </div>
+    
+   
+
+   
+
+
+
+</div>
+
+</body>
+
+
+<%- include('../../partials/footer.ejs')%>
+
+<!--Apontando onde esta a biblioteca Tinymce-->
+
+<script src="/tinymce/tinymce.min.js"></script>
+
+<!--condifigurando o tiny -->
+<script>
+
+     tinymce.init({
+        language: 'pt_BR',
+        selector:"#article",
+        plugins: [
+            'advlist',
+            'autolink',
+            'link',
+            'image',
+            'lists',
+            'print',
+            'preview',
+            'hr',
+            'searchplace',
+            'wordcount',
+            'fullscreen',
+            'insertdatetime',
+            'media',
+            'save',
+            'table',
+            'paste',
+            
+        ]
+
+     })
+
+
+   
+
+
+</script>

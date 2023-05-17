@@ -117,6 +117,29 @@ Porque usar relacionamentos ?
   
 ---------------------------------------------------------------------------------------------------------------------  
 
+O tinyMce serve para adicionar funcionalidades ao textarea 
+- formatação de texto
+- visualização de imagens 
+- criação de tabelas 
+
+ou seja um simples text area se torna um editor de texto avançado usando essa biblioteca 
+link para baixar ele https://www.tiny.cloud/get-tiny/self-hosted/
+
+em relação a instalação ele fica dentro da pasta public
+
+o idiioma original do titny mce e em ingles nesse caso se precisar traduzir para portugues tem que baixar a tradução 
+ele mesmo fornece no site 
+
+nesse link: https://www.tiny.cloud/get-tiny/language-packages/
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
 
 
 
