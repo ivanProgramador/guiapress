@@ -1,0 +1,27 @@
+<%- include('partials/header.ejs')%>
+<%- include('partials/homenavbar.ejs')%>
+
+<body>
+
+
+    <div class="container" >
+
+      <div class="card">
+         <div class="card-header">
+            <h1><%= article.title %></h1>
+        </div>
+         <div class="card-body">
+            <!--para mostrar o corpo do artigo com a formatação certas basta substitui o sina de ' = ' pára o sinal de  ' - '
+            na tag de exibição do ejs  -->
+            <%- article.body %>
+            
+         </div>
+      </div>
+      
+
+    </div>
+    
+</body>
+
+
+<%- include('partials/footer.ejs')%>

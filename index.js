@@ -43,13 +43,106 @@ app.use(express.static('public'));
 
 
 
+//mandando os artigos pra home page 
 
 app.get("/", (req,res)=>{
 
-    //ela vai buscar a index dentro da pasta views
+    Article.findAll({
+        order:[
+            ['id','DESC']
+        ]
+    }).then(articles =>{
 
-    res.render("index");
+        Category.findAll().then(categories => {
 
+            res.render("index",{articles: articles, categories: categories});
+
+        });     
+    });
+})
+
+app.get('/:slug',(req,res)=>{
+  
+     var slug = req.params.slug;
+
+     Article.findOne({
+         where:{
+            slug:slug
+         }
+     }).then(article =>{
+         if(article != undefined){
+
+            Category.findAll().then(categories => {
+
+                res.render("article",{article: article, categories: categories});
+    
+            });     
+
+
+         }else{
+            res.redirect("/")
+         }
+     }).catch(error =>{
+
+        res.redirect("/")
+          
+     })
+
+})
+
+/* rota para fazer a listagem de artigos por categoria de forma dinamica 
+   de forma basica ela faz 2 select 1 pegar as categorias e listar na navbar 
+   e outro pra pegar os artigos que pertencem a categoria e listar na pagina 
+   para fazer isso foi preciso fazer um join como eu estou usando um orm,
+   é mais facil fazer 
+   ele começa na linha 1005 selecionando um categoria com base no slug dela 
+   que vem pela requisição depois ele usa o include para incluir todos os artigos
+   nisso so usando a função finOne eu ja peguei a categoria pelo artigo e todos os artigos 
+   depois eu coloela dentro da variavel category testo se a cetagory esta indefinida 
+   se não estiver  eu executo outro select pra fazer a busca por todas as categorias 
+   
+   depois da busca eu coloco o resultado dentro da variavel categories e rendirizo 
+   ao que ao inves de passar so as categorias primiero eu defino a varivel articles
+   depois eu pego avariavel category e pego so os artigos dela e mando pra dentro da varivel aticles 
+   isso so é possivel fazer porque o joyn trouxe esses artigos pra mim 
+
+   e depois eu passo as categorias normalmente para variavel categories
+   assim tanto os artigos vão pra view quanto as categorias deles
+
+   ai no caso toda vez que eu clicar em um link da navbar home ele executa um select com base 
+   no slug da categoria e lista somente os artigos que pertencem a ela  
+
+   
+   
+
+ */  
+
+app.get('/category/:slug',(req,res)=>{
+
+    var slug = req.params.slug;
+
+    Category.findOne({
+        where: {
+            slug:slug
+        },
+        include: [{model:Article}]
+
+    }).then( category => {
+        if(category != undefined){
+
+            Category.findAll().then(categories => {
+
+                res.render("index",{articles: category.articles, categories: categories});
+            })
+
+        }else{
+            res.redirect("/");
+        }
+    }).catch(error =>{
+        res.redirect("/");
+        
+         
+    })
 })
 
 
