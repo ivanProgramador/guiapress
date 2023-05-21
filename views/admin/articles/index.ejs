@@ -24,7 +24,7 @@
                 <th><%= article.category.title %></th>
                 <th>
 
-                    
+                    <a class="btn btn-warning" href="/admin/articles/edit/<%= article.id %>">Atualizar</a>
                     <!--esse formulario vai mandar a requisição para o metodo delete-->
                     <form action="/articles/delete" method="post" style="display: inline;" onsubmit="confirmarDelecao(event,this)">
                         <!--esse campo vai mandar o id do registro que vai ser apagado-->
@@ -78,3 +78,4 @@
 
 
 <%- include('../../partials/footer.ejs')%>
+

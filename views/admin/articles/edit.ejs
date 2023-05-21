@@ -1,0 +1,121 @@
+<%- include('../../partials/header.ejs')%>
+<%- include('../../partials/navbar.ejs')%>
+
+<body>
+    
+
+<div class="container">
+    <hr>
+    <div class="card" >
+
+    <div class="card-header" >
+            <h2>Editar artigo</h2>
+            
+
+
+    </div>
+
+        <form method="POST" action="/articles/update">
+            <input type="hidden" value="<%= article.id %>">
+
+            <div class="card-body">
+
+               <input type="text" class="form-control" name="title" placeholder="Defina um titulo para o novo atigo" value="<%= article.title %>"><br>
+               
+               <textarea class="form-control" placeholder="escreva aqui seu artigo" name="body" id="article" >
+
+
+               </textarea><br>
+
+               <label>Categoria</label>
+               <select name="category" class="form-control">
+                 <% categories.forEach((category) => { %>
+                    <!--
+                        aqui eu eu testo se o id da categoria e igual ao id da categoria do artigo
+                        se for eu mostro o option ja selecionado conforme a categoria atual do artigo 
+                        se não for eu não seleciono nada
+                    -->
+                    <% if(category.id == article.categoryId){ %>
+
+                    
+                        <option value="<%= category.id %>" selected> <%= category.title %></option>
+
+                        <% }else{ %>
+                      
+                            <option value="<%= category.id %>"> <%= category.title %></option>
+                            
+                        <% } %>  
+                      
+                 <% }) %>
+
+               </select><br>
+
+               <button  class="btn btn-success">Atualizar</button>
+
+            </div>
+
+        </form>
+
+
+    </div>
+</div>
+
+<!-- Eu estou usando essa div porque o conteudo do tiny mce não pode ser exibido diretamente então criei uma div com id 
+    content que ele ja sabe qoue é ,  e depois eu coloquei o ejs pra rednderizar o body do artigo dentro da div que eu vou esconder pra poder 
+    mostrar o conteudo dela dentro do editor -->
+
+<div id="content" style="display: none;">
+
+    <%- article.body %>
+
+</div>
+
+</body>
+
+
+<%- include('../../partials/footer.ejs')%>
+
+<!--Apontando onde esta a biblioteca Tinymce-->
+
+<script src="/tinymce/tinymce.min.js"></script>
+
+<!--condifigurando o tiny -->
+<script>
+
+     tinymce.init({
+        language: 'pt_BR',
+        selector:"#article",
+        plugins: [
+            'advlist',
+            'autolink',
+            'link',
+            'image',
+            'lists',
+            'print',
+            'preview',
+            'hr',
+            'searchplace',
+            'wordcount',
+            'fullscreen',
+            'insertdatetime',
+            'media',
+            'save',
+            'table',
+            'paste',
+            
+        ],
+        init_instance_callback: () =>{
+            //aqui eu pego uma instancia do tiny usao ela pra apontar para o artigo e alterar op conteudo dentro da função set content
+            //eu suso jquery pra selecionar o elemento pelo id content que e a div que coloquei o conteudo e pego todo o html dela 
+            //pra jogar no text area 
+
+            tinymce.get("article").setContent($("#content").html())
+        }
+
+     })
+
+
+   
+
+
+</script>
