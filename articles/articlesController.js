@@ -152,6 +152,35 @@ router.post("/articles/update",(req,res)=>{
    })
 });
 
+//rota de paginação 
+
+router.get("/articles/page/:num",(req,res)=>{
+
+   var page = req.params.num;
+
+   // o metodo findAndCountAll serve para encontrar e contar todos os artigos 
+   // isso torna possivel controlar quantos deles vão aparecer em cada consulta
+   // o parametro limit diz quantos serão exibidos eo páramentro offset paratir de qual
+   // ele vai exibir 
+   // digamos eu quero exibir 4 em cada pagina -> limit: 4 
+   // e quero exibir opartir do numero 10      -> offset:10 
+   // e a assim que a paginação e controlada  
+
+   Article.findAndCountAll({
+     
+      limit: 10,
+      offset:0
+
+   }).then(articles =>{
+       
+       res.json(articles);
+     
+   });
+
+
+
+
+})
 
 module.exports = router;
   
