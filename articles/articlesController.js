@@ -157,6 +157,7 @@ router.post("/articles/update",(req,res)=>{
 router.get("/articles/page/:num",(req,res)=>{
 
    var page = req.params.num;
+    var offset = 0;
 
    // o metodo findAndCountAll serve para encontrar e contar todos os artigos 
    // isso torna possivel controlar quantos deles vão aparecer em cada consulta
@@ -166,14 +167,57 @@ router.get("/articles/page/:num",(req,res)=>{
    // e quero exibir opartir do numero 10      -> offset:10 
    // e a assim que a paginação e controlada  
 
+   //testando se a verivel page traz um numero dentro dela ou se ela e igual a 1 
+
+   if(isNaN(page) || page == 1){
+
+      //se sim 
+      
+       offset = 0;
+
+   }else{
+      //no caso eu tenho que multiplicar o offset por 4 porque eu quero que ele mostre 4 dados por página 
+       offset = parseInt(page) * 4;
+   }
+
    Article.findAndCountAll({
      
-      limit: 10,
-      offset:0
+      limit: 4,
+      offset: offset  //passando o valor do offset 
+      ,order:[
+        ['id','DESC']
+      ]
 
    }).then(articles =>{
+
+       //antes de paginar eu preciso saber se ainda existe mais uma pagina para frente 
+       //para saber isso eu  vou pegar a quantidade de dados contidos na pagina que são 4 
+       // e somar como o offset que sao mais 4 e comparar com o valor total de artigos 
+       // se eu tenho 21 atigos e ele exibe 4 por pagina vai dar 5 paginas sendo que uma dela vai ficar so com 1 artigo
+       //no caso eu vou somar o offset com a quantidade de artigos por pagina se a quantidade for maior que 5 então acabaram os artigos
+       //e não tem mais pagina pra exibir
        
-       res.json(articles);
+       var next;
+
+       if(offset + 4 >= articles.count){
+          next = false;
+       }else{
+          next = true;
+       }
+
+       var result ={
+          next:next,
+          articles:articles
+       }
+
+       Category.findAll().then(categories =>{
+         res.render("admin/articles/page",{result: result, categories: categories})
+       })
+
+
+
+       
+       
      
    });
 
