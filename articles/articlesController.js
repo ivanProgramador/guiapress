@@ -177,7 +177,7 @@ router.get("/articles/page/:num",(req,res)=>{
 
    }else{
       //no caso eu tenho que multiplicar o offset por 4 porque eu quero que ele mostre 4 dados por página 
-       offset = parseInt(page) * 4;
+       offset = (parseInt(page) - 1)   * 4;
    }
 
    Article.findAndCountAll({
@@ -206,6 +206,8 @@ router.get("/articles/page/:num",(req,res)=>{
        }
 
        var result ={
+
+          page:parseInt(page),
           next:next,
           articles:articles
        }

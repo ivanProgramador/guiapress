@@ -23,6 +23,36 @@
           
      <% }) %>
 
+     <div class="row">
+        <div class="col col-md-12">
+
+           <% if(result.page > 2){ %>
+            <a href="/articles/page/<%= result.page - 1 %>" style="float:left"><<< Prev </a>
+
+           <% } else if(result.page == 2){%>
+
+            <a href="/" style="float:left"><<< Prev </a>
+
+
+
+          <%}%>
+
+
+            <!--Aqui eu testo se a variavel next tem algum valor se sim significa que tem mais artigos pra mostrar ela vai mostrar um link -->
+            <% if(result.next){  %>
+
+                
+                <!--esse link que ea mostra eu pego o valor do atributo page do objeto result que contwem o numero da pagina que eu estou
+                    se eu clicar no link ele pega o numero da pagina atual soma + 1  e manda pra rota que vai me levar pra proxima pagina  -->
+ 
+               <a href="/articles/page/<%= result.page + 1 %>" style="float:right">Next >>></a>
+
+           <% } %>
+        </div>
+     </div>
+
+
+
     </div>
     
 </body>
