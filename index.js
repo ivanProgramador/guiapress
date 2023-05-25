@@ -18,10 +18,12 @@ app.use(bodyParser.json());
 //importando as rotas 
 const categoriesController = require('./categories/categoriesController');
 const articlesController = require('./articles/articlesController');
+const usersController = require('./user/usersController');
 
 //usando as rotas que eu importei 
 app.use('/', categoriesController);
 app.use('/', articlesController);
+app.use('/', usersController);
 
 //importando os models para atualizar as tabelas
 //tudo qoue esta aqui é executado portanto se eu importar os models pra ca
@@ -30,6 +32,7 @@ app.use('/', articlesController);
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
 const router = require("./categories/categoriesController");
+const User = require("./user/User");
 
 
 
