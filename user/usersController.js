@@ -23,25 +23,43 @@ router.post('/users/create',(req,res)=>{
     //a forma mais segura para este porjeto foi o rash porque não tem extamente um jeito de reverter um rash
     //para fazer iss eu usei a biblioteca bcryptjs
 
-    var salt = bcrypt.genSaltSync(10); //criando o salt 
+    //evitando emails repetidos no cadastro aqui eu faço um select onde eu procuro o email
+    //que o susrio tentou cadastrar se não vier nada na consulta ele vai dar undefied e vai executar o cadastro
+    //porem se o resultado da compração não for indefinido ele retorna o usuario pra pagina de cadastro sem cadastrar
+    //o email repetido 
 
-    var hash = bcrypt.hashSync(password,salt); //pegando a senha e o salt pra gerar uma hash pra senha  
+    User.findAll({where:{email:email}}).then(user =>{
 
-    //salavndo a rash lgerada com abse na senha no banco de dados e salvando tambem o email 
-    
-     User.create({
-        email: email,
-        password: hash
+      if(user == undefined){
 
-     }).then(()=>{
+               var salt = bcrypt.genSaltSync(10); //criando o salt 
 
-        res.redirect("/");
+               var hash = bcrypt.hashSync(password,salt); //pegando a senha e o salt pra gerar uma hash pra senha  
+         
+               //salavndo a rash lgerada com abse na senha no banco de dados e salvando tambem o email 
+               
+               User.create({
+                  email: email,
+                  password: hash
+         
+               }).then(()=>{
+         
+                  res.redirect("/");
+         
+               }).catch((err)=>{
+         
+                  res.redirect("/");
+               })
 
-     }).catch((err)=>{
+               }else{
 
-        res.redirect("/");
-     })
-})
+                res.redirect("/admin/users/create");
+
+      }
+
+    });
+  
+});
 
 module.exports = router;
 
