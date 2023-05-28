@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs');
 
 router.get('/admin/users',(req,res)=>{
 
-     res.send('Listagem de usuarios');
+     User.findAll().then(users =>{
+        res.render('admin/user/index',{users:users});
+     })
 });
 
 router.get('/admin/users/create',(req,res)=>{
@@ -14,6 +16,7 @@ router.get('/admin/users/create',(req,res)=>{
 })
 
 router.post('/users/create',(req,res)=>{
+
     var email = req.body.email;
     var password = req.body.password;
 
@@ -28,7 +31,7 @@ router.post('/users/create',(req,res)=>{
     //porem se o resultado da compração não for indefinido ele retorna o usuario pra pagina de cadastro sem cadastrar
     //o email repetido 
 
-    User.findAll({where:{email:email}}).then(user =>{
+    User.findOne({where:{email:email}}).then(user =>{
 
       if(user == undefined){
 
@@ -60,6 +63,43 @@ router.post('/users/create',(req,res)=>{
     });
   
 });
+
+
+router.post('/user/delete/',(req,res)=>{
+
+   var id = req.body.id;
+
+   if(id != undefined){ //testando se o id e diferente de undefined
+
+      if(!isNaN(id)){ //testando se o id que vai vir e um numero 
+  
+        //se ele for diferente de indefinido e for um numero 
+  
+        User.destroy({
+         where:{
+            id:id
+         }
+       }).then(()=>{
+  
+         res.redirect('/admin/users');
+            
+       })
+  
+         
+  
+      }else{
+  
+         res.redirect('/admin/users');
+      }
+  
+  
+    }else{
+      res.redirect('/admin/users');
+    }
+  
+
+  
+})
 
 module.exports = router;
 

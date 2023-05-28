@@ -1,0 +1,73 @@
+<%- include('../../partials/header.ejs')%>
+<%- include('../../partials/navbar.ejs')%>
+<div class="container">
+    <hr>
+      <h2>Usuários</h2>
+      <a href="/admin/users/create" class="btn btn-success" >Criar novo usuario</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aqui eu faço um forEach no array que veio da rota -->
+            <% users.forEach(user =>{%>
+
+                <tr>
+                    <th><%= user.id %></th>
+                    <th><%= user.email %></th>
+                    <th>
+                        <a class="btn btn-warning" href="/admin/user/edit/<%= user.id %>" >Editar</a>
+
+                    <!--esse formulario vai mandar a requisição para o metodo delete-->
+                    <form action="/user/delete" method="post" style="display: inline;" onsubmit="confirmarDelecao(event,this)">
+                        <!--esse campo vai mandar o id do registro que vai ser apagado-->
+                        <input type="hidden" name="id" value="<%= user.id %>" >
+
+                        <!--esse so vai acionar o submit-->
+                        <button class="btn btn-danger" >Deletar</button>
+                    </form>
+                      
+                    </th>
+                </tr>
+            <% }) %>
+
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+    //executando uma função na pagina
+    
+ function confirmarDelecao(event,form){
+
+    event.preventDefault();
+
+    var decisao = confirm("Você deseja apagar esse usuário ?");
+
+    if(decisao){
+
+        form.submit();
+
+    }
+
+
+
+
+      
+ }
+</script>
+
+
+
+
+
+<%- include('../../partials/footer.ejs')%>
