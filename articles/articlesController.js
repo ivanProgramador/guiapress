@@ -3,8 +3,11 @@ const router = express.Router();
 const Category = require("../categories/Category");
 const Article = require('./Article');
 const slugify = require('slugify');
+const adminAuth = require("../midwares/adminAuth");
 
-router.get("/admin/articles",(req,res)=>{
+//inserindo o midware na rota 
+
+router.get("/admin/articles",adminAuth.authenticate ,(req,res)=>{
   //desnto do find all eu digo quais as tebelas que eu quero incluir 
   //no caso eu mandei incluir categorias pra pegar so o titulo delas 
 
@@ -20,7 +23,7 @@ router.get("/admin/articles",(req,res)=>{
 
 
 
-router.get("/admin/articles/new",(req,res)=>{
+router.get("/admin/articles/new",adminAuth.authenticate,(req,res)=>{
     
     Category.findAll().then(categories =>{
 
@@ -31,7 +34,7 @@ router.get("/admin/articles/new",(req,res)=>{
 
 
 
-router.post("/articles/save",(req,res)=>{
+router.post("/articles/save",adminAuth.authenticate,(req,res)=>{
   
    var title = req.body.title;
    var body  = req.body.body;
@@ -52,7 +55,7 @@ router.post("/articles/save",(req,res)=>{
 });
 
 
-router.post("/articles/delete", (req,res) => {
+router.post("/articles/delete",adminAuth.authenticate, (req,res) => {
 
   var id = req.body.id;
 
@@ -89,7 +92,7 @@ router.post("/articles/delete", (req,res) => {
 
 //rota que leva para a pagina de edição 
 
-router.get("/admin/articles/edit/:id", (req,res)=>{
+router.get("/admin/articles/edit/:id",adminAuth.authenticate, (req,res)=>{
   
   var id = req.params.id; 
 
@@ -121,7 +124,7 @@ router.get("/admin/articles/edit/:id", (req,res)=>{
 
 //rota que executa a edição 
 
-router.post("/articles/update",(req,res)=>{
+router.post("/articles/update",adminAuth.authenticate,(req,res)=>{
 
   //pegando as informações que vem da requisição
 

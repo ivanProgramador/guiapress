@@ -1,0 +1,46 @@
+//gerenciando as cessoes com o express
+//o secret e um varivel de autenticação que aumenta a segurança do login 
+//eu coloquei qualquer coisa so para teste , o objeto cookies maxAge limita o tempo logado
+
+
+app.use(session({
+    secret:"qualquercoisa", cookie:{ maxAge: 3000}
+}))
+
+
+
+//conforme a necessidade  eu coloquie 30 milisegundos(ele so lê o tempo em milisegundos ) só pra testar 
+// as cessões nesse caso são salvas no servidor em uma aplicaçlão de pequeno porte isso pode funcionar por um tempo 
+//porem em aplicações de grande porte pode quebrar a memoria dos servidor em algum momento pelo tanto de cessões salvas 
+// para evitar isso existe um banco chamado REDIS que não vai ser usado nesse projeto ainda
+
+//quando um cliente digita o login e a senha de forma correta dentro de uma cessão um objeto é criado contendo o usuario e a senha 
+//esses atributos são preenchidos com os dados que vieram da rota de requisição de login 
+ 
+
+usuario = {
+     email: 'exemplo@exemplo',
+     senha: '1234'
+}
+
+//então criamos uma cessão com esses dados
+
+MIDWARE 
+
+É uma função que e executada entre uma ação e outra no nosso caso vai ser entrea uma requisição e outra
+por exemplo se eu tenho uma função que diz oi e essa função é executada cada vez que o suusuario faz uma requisição ela se torna um MIDWARE
+porque tudo oque acontece passa por dentro dela tanto as requisições quanto as respostas dessas requisições.
+
+  requisição                                       MIDWARE                resposta
+  
+  usuario req -> login                 função oi(){console.log("oi")}   -> res usuario loga  
+  usuario req -> lista de artigos      função oi(){console.log("oi")}   -> res usuario recebe a lista de artigos
+  usuario req -> lista de categorias   função oi(){console.log("oi")}   -> res usuario recebe a lista de categorias
+
+
+
+
+
+
+
+

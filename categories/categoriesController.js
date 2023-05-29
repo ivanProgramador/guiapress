@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 //para executar gravaçãop no baco eu vou precisar do model 
 const Category = require('./Category');
 const slugify = require('slugify');
+const adminAuth = require("../midwares/adminAuth");
 
 router.get("/categories",(req,res)=>{
 
@@ -59,7 +60,7 @@ router.post("/categories/save",(req,res)=>{
 });
 
 
-router.get('/admin/categories',(req,res)=>{
+router.get('/admin/categories',adminAuth.authenticate,(req,res)=>{
 
   //findAll e como um select deposi que ele seleciona ele envia os dados para a função then() 
   //que recebe uma função de call back então eu criei o parametro categories e dentro dela joguei topas as categorias encontradas 
@@ -76,7 +77,7 @@ router.get('/admin/categories',(req,res)=>{
 
 // rota para deletar uma categoria 
 
-router.post("/categories/delete", (req,res) => {
+router.post("/categories/delete",adminAuth.authenticate,(req,res) => {
 
    var id = req.body.id;
 
@@ -114,7 +115,7 @@ router.post("/categories/delete", (req,res) => {
 
 //rota apara editar categoria 
 
-router.get("/admin/categories/edit/:id",(req,res)=>{
+router.get("/admin/categories/edit/:id",adminAuth.authenticate,(req,res)=>{
   var id = req.params.id;
    
    if(isNaN(id)){

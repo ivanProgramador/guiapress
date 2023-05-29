@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const User = require('./User');
 const bcrypt = require('bcryptjs');
+const adminAuth = require('../midwares/adminAuth');
 
-router.get('/admin/users',(req,res)=>{
+router.get('/admin/users',adminAuth.authenticate,(req,res)=>{
 
      User.findAll().then(users =>{
         res.render('admin/user/index',{users:users});
      })
 });
 
-router.get('/admin/users/create',(req,res)=>{
+router.get('/admin/users/create',adminAuth.authenticate,(req,res)=>{
 
     res.render('admin/user/create');
 })
@@ -23,7 +24,7 @@ router.post('/users/create',(req,res)=>{
     //nunca se deve salvar na base de dados uma senha exatamente como ela foi digitada pelo usuario
     // exite duas formas de codifica-la a forma menos segura e a criptografia porque a criptografia
     //segue padrões e existem regras de decodificação que podem ser aplicadas para pegar as senhas dos usuarios 
-    //a forma mais segura para este porjeto foi o rash porque não tem extamente um jeito de reverter um rash
+    //a forma mais segura para este projeto foi o rash porque não tem extamente um jeito de reverter um rash
     //para fazer iss eu usei a biblioteca bcryptjs
 
     //evitando emails repetidos no cadastro aqui eu faço um select onde eu procuro o email
@@ -65,7 +66,7 @@ router.post('/users/create',(req,res)=>{
 });
 
 
-router.post('/user/delete/',(req,res)=>{
+router.post('/user/delete/',adminAuth.authenticate,(req,res)=>{
 
    var id = req.body.id;
 
@@ -100,6 +101,76 @@ router.post('/user/delete/',(req,res)=>{
 
   
 })
+
+//rota pra tela de login
+
+router.get("/login", (req,res)=>{
+    res.render('admin/user/login')
+})
+
+//rota que executa o login
+
+router.post("/authenticate", (req,res)=>{
+
+   //pegando os dados que vem da reuisição 
+   var email = req.body.email;
+   var password = req.body.password;
+
+   //buscando usuario na base de dados 
+
+      User.findOne({where:{email: email}}).then(user => {
+           
+         if(user != undefined){
+
+          //validar senha 
+          //aqui eu uso o bcrypt para comparar as senhas 
+          //internamente o metodo compare sync vai pegar a senha que veio da requisição 
+          //trasnformar ela em um rash e comparar com a rash que esta na base de dados 
+          //se bater ele coloca o valor true na variavel correct   
+
+          var correct = bcrypt.compareSync(password, user.password);
+
+          if(correct){
+
+            //se o correct for igual a true eu vou criar um a cessao 
+
+         var usel =  req.session.user = {
+               id: user.id,
+               email: user.email
+           }
+
+         
+           res.redirect("/admin/articles");
+            
+
+             }else{
+
+            res.redirect("/login");
+
+          }
+
+
+
+         }else{
+
+            res.redirect("/login");
+         }
+
+
+
+      })
+
+
+})
+
+router.get("/logout",(req,res)=>{
+    
+   req.session.user = undefined;
+   res.redirect("/");
+})
+
+
+
 
 module.exports = router;
 

@@ -1,7 +1,14 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const session = require("express-session");
 const connection = require("./database/database");
+
+
+//gerenciando cessoes 
+app.use(session({
+    secret:"qualquercoisa", cookie:{ maxAge: 60000}
+}))
 
 
 
@@ -38,6 +45,12 @@ const User = require("./user/User");
 
 // configurando a view engine pra trabalhar com o retorno em html 
 app.set('view engine','ejs'); 
+
+
+
+
+
+
 
 //condfigurando o express pra trabalhar com aqrquivos estaticos 
 app.use(express.static('public'));
